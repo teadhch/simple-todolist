@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import TodoEditor from "./components/TodoEditor";
 import TodoList from "./components/TodoList";
 
+// 목업 데이터 + 데이터 디자인
 const mockTodo = [
   {
     id: 1,
