@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import TodoEditor from "./components/TodoEditor";
@@ -20,7 +20,7 @@ const mockTodo = [
   },
   {
     id: 3,
-    isDone: false,
+    isDone: true,
     content: "게으름피기",
     createdDate: new Date().getTime(),
   },
@@ -28,12 +28,23 @@ const mockTodo = [
 
 function App() {
   const [todo, setTodo] = useState(mockTodo);
+  const idRef = useRef(3);
+  const onCreate = (content) => {
+    const newItem = {
+      id: idRef.current,
+      content,
+      isDone: false,
+      createdDate: new Date().getTime(),
+    }; // 새로운 할일 객체 생성
+    setTodo([newItem, ...todo]); // 기존의 todo 앞에 새로운 할일 객체 추가 후 새 배열반환
+    idRef.current += 1; // 할일 객체의 id값 1 증가 (id값이 중복 되지 않도록)
+  };
   return (
     <>
       <div className="App">
         <Header />
-        <TodoEditor />
-        <TodoList todo={todo} />
+        <TodoEditor onCreate={onCreate} />
+        <TodoList />
       </div>
     </>
   );
