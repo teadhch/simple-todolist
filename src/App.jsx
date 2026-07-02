@@ -28,7 +28,7 @@ const mockTodo = [
 
 function App() {
   const [todo, setTodo] = useState(mockTodo);
-  const idRef = useRef(3);
+  const idRef = useRef(4);
   const onCreate = (content) => {
     const newItem = {
       id: idRef.current,
@@ -43,8 +43,8 @@ function App() {
     <>
       <div className="App">
         <Header />
-        <TodoEditor onCreate={onCreate} />
-        <TodoList />
+        <TodoEditor onCreate={onCreate} /> {/* 함수도 props로 내려줄 수 있다 */}
+        <TodoList todo={todo} />
       </div>
     </>
   );
