@@ -1,10 +1,13 @@
 import "./TodoItem.css";
 
-const TodoItem = ({ id, content, isDone, createdDate }) => {
+const TodoItem = ({ id, content, isDone, createdDate, onUpdate }) => {
+  const onChangeCheckBox = () => {
+    onUpdate(id);
+  };
   return (
     <div className="TodoItem">
       <div className="checkbox_col">
-        <input type="checkbox" checked={isDone} readOnly />
+        <input type="checkbox" checked={isDone} onChange={onChangeCheckBox} />
       </div>
       <div className="title_col">{content}</div>
       <div className="date_col">{new Date(createdDate).toLocaleString()}</div>
