@@ -4,7 +4,7 @@ const TodoItem = ({ id, content, isDone, createdDate }) => {
   return (
     <div className="TodoItem">
       <div className="checkbox_col">
-        <input type="checkbox" checked={isDone} />
+        <input type="checkbox" checked={isDone} readOnly />
       </div>
       <div className="title_col">{content}</div>
       <div className="date_col">{new Date(createdDate).toLocaleString()}</div>
