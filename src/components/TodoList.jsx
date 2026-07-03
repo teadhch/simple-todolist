@@ -2,7 +2,7 @@ import { useState } from "react";
 import TodoItem from "./TodoItem";
 import "./TodoList.css";
 
-const TodoList = ({ todo }) => {
+const TodoList = ({ todo, onUpdate }) => {
   const [search, setSearch] = useState("");
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
@@ -32,7 +32,7 @@ const TodoList = ({ todo }) => {
       <div className="list_wrapper">
         {/* getSearchResult() 함수가 호출된 결과 또한 배열이므로, map을 사용할 수 있고, filter()를 사용했기 때문에 호출 될 때마다 매번 새로운 배열의 주소값으로 교체되어 아래의 부분이 재 렌더링 된다. 또한 filter()가 얕은 복사를 수행하기 때문에 기존의 할일목록 (todo)는 수정되지 않는다 */}
         {getSearchRsult().map((it) => (
-          <TodoItem key={it.id} {...it} />
+          <TodoItem key={it.id} {...it} onUpdate={onUpdate} />
         ))}
       </div>
     </div>
