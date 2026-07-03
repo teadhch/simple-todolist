@@ -55,12 +55,18 @@ function App() {
       }),
     );
   };
+
+  // 할일 삭제하기
+  const onDelete = (targetId) => {
+    setTodo(todo.filter((it) => it.id !== targetId));
+  };
+
   return (
     <>
       <div className="App">
         <Header />
         <TodoEditor onCreate={onCreate} /> {/* 함수도 props로 내려줄 수 있다 */}
-        <TodoList todo={todo} onUpdate={onUpdate} />
+        <TodoList todo={todo} onUpdate={onUpdate} onDelete={onDelete} />
       </div>
     </>
   );
