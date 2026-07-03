@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useReducer } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import TodoEditor from "./components/TodoEditor";
@@ -26,26 +26,50 @@ const mockTodo = [
   },
 ];
 
+function reducer(state, action) {
+  // 상태변화 코드들이 모여있게 되는 함수 (상태변화함수)
+  // state : state변수
+  // action : dispatch() 함수의 매개변수 = Action 객체
+  switch (action.type) {
+    case "Increase":
+      return state + action.data;
+    case "Decrease":
+      return state - action.data;
+  }
+}
+
 function TestComp() {
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
 
-  const onIncrease = () => {
-    // 상태 변경 코드
-    setCount(count + 1);
-  };
+  // const [state변수, 상태변화촉발함수(dispatch)] = useReducer(상태변화함수, 초기값);
+  // useReducer가 반환하는 함수 dispatch를 호출하면, useReducer는 reducer함수를 호출하게 된다.
+  const [count, dispatch] = useReducer(reducer, 0);
 
-  const onDecrease = () => {
-    // 상태 변경 코드
-    setCount(count - 1);
-  };
+  // const onIncrease = () => {
+  //   // 상태 변경 코드
+  //   setCount(count + 1);
+  // };
+
+  // const onDecrease = () => {
+  //   // 상태 변경 코드
+  //   setCount(count - 1);
+  // };
 
   return (
     <div>
       <h4>테스트</h4>
       <div>{count}</div>
       <div>
-        <button onClick={onIncrease}>+</button>
-        <button onClick={onDecrease}>-</button>
+        {/* 버튼을 클릭하면 dispatch()함수가 호출되도록 했다
+          dispatch()는 매개변수로 ACTION객체(state값을 어떻게 변경한다 라는 변경정보)라는 것을 넘겨줘야 한다.
+          아래에서는 +버튼을 클릭하면 1을 증가시킨다 라는 내용이 Action객체의 내용이 되고, -버튼을 클릭하면 10을 감소시킨다 라는 내용이 Action객체의 내용이 된다.
+        */}
+        <button onClick={() => dispatch({ type: "Increase", data: 1 })}>
+          +
+        </button>
+        <button onClick={() => dispatch({ type: "Decrease", data: 10 })}>
+          -
+        </button>
       </div>
     </div>
   );
@@ -90,6 +114,7 @@ function App() {
     <>
       <div className="App">
         <Header />
+        <TestComp />
         <TodoEditor onCreate={onCreate} /> {/* 함수도 props로 내려줄 수 있다 */}
         <TodoList todo={todo} onUpdate={onUpdate} onDelete={onDelete} />
       </div>
