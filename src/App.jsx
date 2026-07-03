@@ -26,6 +26,31 @@ const mockTodo = [
   },
 ];
 
+function TestComp() {
+  const [count, setCount] = useState(0);
+
+  const onIncrease = () => {
+    // 상태 변경 코드
+    setCount(count + 1);
+  };
+
+  const onDecrease = () => {
+    // 상태 변경 코드
+    setCount(count - 1);
+  };
+
+  return (
+    <div>
+      <h4>테스트</h4>
+      <div>{count}</div>
+      <div>
+        <button onClick={onIncrease}>+</button>
+        <button onClick={onDecrease}>-</button>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [todo, setTodo] = useState(mockTodo);
   const idRef = useRef(4);
