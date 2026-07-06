@@ -91,7 +91,7 @@ function todoReducer(state, action) {
 
 function App() {
   const [todo, dispatch] = useReducer(todoReducer, mockTodo);
-  const idRef = useRef(3);
+  const idRef = useRef(4);
 
   // 새로운 할일 추가
   const onCreate = (content) => {
