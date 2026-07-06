@@ -75,20 +75,30 @@ function TestComp() {
   );
 }
 
+function todoReducer(state, action) {
+  // 상태 변화 로직
+  switch ((action, type)) {
+    case "CREATE":
+      return [action.newItem, ...state]; // 기존의 배열에 action.newItem(새로운 할일) 추가
+  }
+}
+
 function App() {
   const [todo, dispatch] = useReducer(todoReducer, mockTodo);
   const idRef = useRef(4);
 
   // 새로운 할일 추가
   const onCreate = (content) => {
-    const newItem = {
-      id: idRef.current,
-      content,
-      isDone: false,
-      createdDate: new Date().getTime(),
-    }; // 새로운 할일 객체 생성
-    setTodo([newItem, ...todo]); // 기존의 todo 앞에 새로운 할일 객체 추가 후 새 배열반환
-    idRef.current += 1; // 할일 객체의 id값 1 증가 (id값이 중복 되지 않도록)
+    dispatch({
+      type: "CREATE",
+      newItem: {
+        id: idRef.current,
+        isDone: false,
+        content: content,
+        createdDate: new Date().getTime(),
+      },
+    });
+    idRef.current += 1;
   };
 
   // 할일 수정하기
