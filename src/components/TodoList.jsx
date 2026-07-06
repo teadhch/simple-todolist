@@ -4,6 +4,19 @@ import "./TodoList.css";
 
 const TodoList = ({ todo, onUpdate, onDelete }) => {
   const [search, setSearch] = useState("");
+
+  // 완료된 할일과 미완료된 할일의 갯수를 검색해 페이지에 렌더링해보자
+  const analyzeTodo = () => {
+    const totalCount = todo.length; // 전체 할일의 수
+    const doneCount = todo.filter((it) => it.isDone).length; // 완료된 할일의 수
+    const notDoneCount = totalCount - doneCount; // 미완료된 할일의 수
+    return {
+      totalCount,
+      doneCount,
+      notDoneCount,
+    };
+  };
+
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
   };
