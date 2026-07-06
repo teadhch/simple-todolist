@@ -1,4 +1,4 @@
-import { useState, useRef, useReducer } from "react";
+import { useRef, useReducer, useCallback } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import TodoEditor from "./components/TodoEditor";
@@ -93,6 +93,9 @@ function App() {
   const [todo, dispatch] = useReducer(todoReducer, mockTodo);
   const idRef = useRef(4);
 
+  // useCallback을 이용해 앱에서 App컴포넌트가 리렌더링 될 때, 함수 onUpdate, onDelete를 재생성하지 않도록 만들어서 TodoItem 컴포넌트의 렌더링 최적화를 해보자
+  // const memoizedFunc = useCallback(콜백함수, 의존성배열)
+
   // 새로운 할일 추가
   const onCreate = (content) => {
     dispatch({
@@ -108,24 +111,24 @@ function App() {
   };
 
   // 할일 수정하기
-  const onUpdate = (targetId) => {
+  const onUpdate = useCallback((targetId) => {
     dispatch({
       type: "UPDATE",
       targetId: targetId,
     });
-  };
+  }, []);
 
   // 할일 삭제하기
   // const onDelete = (targetId) => {
   //   setTodo(todo.filter((it) => it.id !== targetId));
   // };
 
-  const onDelete = (targetId) => {
+  const onDelete = useCallback((targetId) => {
     dispatch({
       type: "DELETE",
       targetId: targetId,
     });
-  };
+  }, []);
   return (
     <>
       <div className="App">
