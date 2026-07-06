@@ -77,15 +77,19 @@ function TestComp() {
 
 function todoReducer(state, action) {
   // 상태 변화 로직
-  switch ((action, type)) {
+  switch (action.type) {
     case "CREATE":
       return [action.newItem, ...state]; // 기존의 배열에 action.newItem(새로운 할일) 추가
+    case "UPDATE":
+      return state.map((it) =>
+        it.id === action.targetId ? { ...it, isDone: !it.isDone } : it,
+      );
   }
 }
 
 function App() {
   const [todo, dispatch] = useReducer(todoReducer, mockTodo);
-  const idRef = useRef(4);
+  const idRef = useRef(3);
 
   // 새로운 할일 추가
   const onCreate = (content) => {
@@ -103,16 +107,10 @@ function App() {
 
   // 할일 수정하기
   const onUpdate = (targetId) => {
-    setTodo(
-      todo.map((it) => {
-        if (it.id === targetId) {
-          // 수정할 할일을 찾음
-          return { ...it, isDone: !it.isDone }; //수정해서 반환해주면 map이 새로운 배열을 setTodo로 바꾸고
-        } else {
-          return it;
-        }
-      }),
-    );
+    dispatch({
+      type: "UPDATE",
+      targetId: targetId,
+    });
   };
 
   // 할일 삭제하기
