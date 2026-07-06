@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import TodoItem from "./TodoItem";
 import "./TodoList.css";
 
 const TodoList = ({ todo, onUpdate, onDelete }) => {
   const [search, setSearch] = useState("");
 
+  // useMemo를 이용하여 특정 함수를 호출 했을때 그 반환값을 기억하도록 하고, 반환값이 같을때는
+  // 그 함수가 다시 호출되지 않도록 하는 기법
+  // const 변수 = useMemo(콜백함수, 의존성배열)
+  // 의존성 배열에 담긴 값이 바뀌면 callback함수를 다시 호출하고 결과값을 반환한다.
+
   // 완료된 할일과 미완료된 할일의 갯수를 검색해 페이지에 렌더링해보자
-  const analyzeTodo = () => {
+  const analyzeTodo = useMemo(() => {
+    console.log("analyzeTodo 함수 호출....");
     const totalCount = todo.length; // 전체 할일의 수
     const doneCount = todo.filter((it) => it.isDone).length; // 완료된 할일의 수
     const notDoneCount = totalCount - doneCount; // 미완료된 할일의 수
@@ -15,7 +21,7 @@ const TodoList = ({ todo, onUpdate, onDelete }) => {
       doneCount,
       notDoneCount,
     };
-  };
+  }, [todo]);
 
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
@@ -33,9 +39,15 @@ const TodoList = ({ todo, onUpdate, onDelete }) => {
         );
   };
 
+  const { totalCount, doneCount, notDoneCount } = analyzeTodo;
   return (
     <div className="TodoList">
       <h4>Todo List</h4>
+      <div>
+        <div>총 갯수 : {totalCount}</div>
+        <div>완료된 할일의 갯수 : {doneCount}</div>
+        <div>미완료된 할일의 갯수 : {notDoneCount}</div>
+      </div>
       <input
         className="searchbar"
         placeholder="검색어를 입력하세요"
