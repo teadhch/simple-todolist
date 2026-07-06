@@ -84,6 +84,8 @@ function todoReducer(state, action) {
       return state.map((it) =>
         it.id === action.targetId ? { ...it, isDone: !it.isDone } : it,
       );
+    case "DELETE":
+      return state.filter((it) => it.id !== action.targetId);
   }
 }
 
@@ -114,10 +116,16 @@ function App() {
   };
 
   // 할일 삭제하기
-  const onDelete = (targetId) => {
-    setTodo(todo.filter((it) => it.id !== targetId));
-  };
+  // const onDelete = (targetId) => {
+  //   setTodo(todo.filter((it) => it.id !== targetId));
+  // };
 
+  const onDelete = (targetId) => {
+    dispatch({
+      type: "DELETE",
+      targetId: targetId,
+    });
+  };
   return (
     <>
       <div className="App">
