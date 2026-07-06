@@ -76,7 +76,7 @@ function TestComp() {
 }
 
 function App() {
-  const [todo, setTodo] = useState(mockTodo);
+  const [todo, dispatch] = useReducer(todoReducer, mockTodo);
   const idRef = useRef(4);
 
   // 새로운 할일 추가
